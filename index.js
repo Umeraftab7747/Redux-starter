@@ -1,25 +1,63 @@
 const redux = require("redux");
-const store = redux.createStore;
+const createStore = redux.createStore;
 
-const BuyBook = "Buy Book";
-
-const intialState = {
+const intialStateBook = {
+  // state
   numberOfbooks: 10,
+};
+const intialStatePen = {
+  // state
+
+  numberOfpens: 115,
 };
 
 function BuyBook() {
   return {
-    type: BuyBook,
-    info: "My First Redux Code",
+    //   Actions
+    type: "Buy Book",
+    payload: "My First Redux Code",
   };
 }
-const reducer = (state = intialState, action) => {
+
+function BuyPen() {
+  return {
+    //   Actions
+    type: "Buy Pen",
+    payload: "My Second Redux Code",
+  };
+}
+
+const reducerBook = (state = intialStateBook, action) => {
+  // StatePlay
   if (action.type === "Buy Book") {
     return {
-      numberOfbooks: numberOfbooks + 1,
+      ...state,
+      numberOfbooks: state.numberOfbooks + 3,
     };
   } else {
     return state;
   }
 };
-asdasdasdasdasdasdad;
+const reducerPen = (state = intialStatePen, action) => {
+  // StatePlay
+  if (action.type === "Buy Pen") {
+    return {
+      ...state,
+      numberOfpens: state.numberOfpens - 4,
+    };
+  } else {
+    return state;
+  }
+};
+
+const store = createStore(reducerPen);
+console.log("inital state", store.getState());
+const unsubscribe = store.subscribe(() => {
+  console.log("Update state", store.getState());
+});
+store.dispatch(BuyBook());
+store.dispatch(BuyBook());
+store.dispatch(BuyPen());
+store.dispatch(BuyPen());
+store.dispatch(BuyPen());
+unsubscribe();
